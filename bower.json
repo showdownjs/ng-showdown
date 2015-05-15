@@ -1,7 +1,7 @@
 {
   "name": "ngShowdown",
   "description": "Official Showdown integration with AngularJS",
-  "homepage": "https://github.com/showdownjs/showdown",
+  "homepage": "https://github.com/showdownjs/ngShowdown",
   "authors": [
     "Estevão Santos (https://github.com/tivie)"
   ],
