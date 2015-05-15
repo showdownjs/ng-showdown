@@ -1,0 +1,3 @@
+Gruntfile.js
+dist/**/*.js
+build/**/*.js

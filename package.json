@@ -1,0 +1,42 @@
+{
+  "name": "ngShowdown",
+  "version": "1.0.0",
+  "description": "Official Showdown integration with AngularJS",
+  "authors": "Estevão Santos",
+  "contributors": [
+    "Estevão Santos"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/showdownjs/showdown.git",
+    "web": "https://github.com/showdownjs/showdown"
+  },
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "https://github.com/coreyti/showdown/raw/master/license.txt"
+    }
+  ],
+  "main": "./dist/ngShowdown.js",
+  "scripts": {
+    "test": "mocha ./test/**/*.js"
+  },
+  "dependencies": {
+    "showdown": "1.*"
+  },
+  "devDependencies": {
+    "angular": "^1.3.2",
+    "chai": "^1.10.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.6.0",
+    "grunt-conventional-changelog": "^1.1.0",
+    "grunt-jscs": "^1.2.0",
+    "grunt-simple-mocha": "^0.4.0",
+    "jscs": "^1.10.0",
+    "mocha": "*",
+    "should": "^4.4.2",
+    "source-map-support": "^0.2.9"
+  }
+}

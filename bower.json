@@ -1,0 +1,28 @@
+{
+  "name": "ngShowdown",
+  "description": "Official Showdown integration with AngularJS",
+  "homepage": "https://github.com/showdownjs/showdown",
+  "authors": [
+    "Estevão Santos (https://github.com/tivie)"
+  ],
+  "main": ["src/ngShowdown.js"],
+  "ignore": [
+    ".jshintrc"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/showdownjs/ngShowdown.git"
+  },
+  "dependencies": {
+    "showdown": "1.0.*",
+    "angular": "1.3.*"
+  },
+  "keywords": [
+    "markdown",
+    "showdown",
+    "md",
+    "mdown",
+    "angular"
+  ],
+  "license": "https://github.com/showdownjs/ngShowdown/blob/master/license.txt"
+}
