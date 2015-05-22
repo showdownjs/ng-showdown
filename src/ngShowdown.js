@@ -12,7 +12,7 @@ if (typeof angular !== 'undefined' && typeof showdown !== 'undefined') {
 
     module
       .provider('$showdown', provider)
-      .directive('sdModelToHtml', ['$showdown', markdownToHtmlDirective])
+      .directive('sdModelToHtml', ['$Showdown', '$sanitize', markdownToHtmlDirective])
       .filter('sdStripHtml', stripHtmlFilter);
 
     /**
@@ -108,13 +108,13 @@ if (typeof angular !== 'undefined' && typeof showdown !== 'undefined') {
      * @param {showdown.Converter} $showdown
      * @returns {*}
      */
-    function markdownToHtmlDirective($showdown) {
+    function markdownToHtmlDirective($showdown, $sanitize) {
 
       var link = function (scope, element) {
         scope.$watch('model', function (newValue) {
           var val;
           if (typeof newValue === 'string') {
-            val = $showdown.makeHtml(newValue);
+            val = $sanitize($showdown.makeHtml(newValue));
           } else {
             val = typeof newValue;
           }
@@ -142,7 +142,7 @@ if (typeof angular !== 'undefined' && typeof showdown !== 'undefined') {
       };
     }
 
-  })(angular.module('showdown', []), showdown);
+  })(angular.module('showdown', ['ngSanitize']), showdown);
 
 } else {
   throw new Error('ng-showdown was not loaded because one of its dependencies (AngularJS or Showdown) was not met');
