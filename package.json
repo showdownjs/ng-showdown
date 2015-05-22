@@ -1,5 +1,5 @@
 {
-  "name": "ngShowdown",
+  "name": "ng-showdown",
   "version": "1.0.0",
   "description": "Official Showdown integration with AngularJS",
   "authors": "Estevão Santos",
@@ -8,8 +8,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/showdownjs/ngShowdown.git",
-    "web": "https://github.com/showdownjs/ngShowdown"
+    "url": "https://github.com/showdownjs/ng-showdown.git",
+    "web": "https://github.com/showdownjs/ng-showdown"
   },
   "license": "BSD-2-Clause",
   "main": "./dist/ngShowdown.js",
