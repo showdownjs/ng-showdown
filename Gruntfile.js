@@ -10,11 +10,12 @@ module.exports = function (grunt) {
     concat: {
       options: {
         sourceMap: true,
-        banner: ';/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */'
+        banner: ';/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n(function(){\n',
+        footer: '}).call(this);'
       },
       dist: {
         src:  [
-          'src/*/**.js'
+          'src/**/*.js'
         ],
         dest: 'dist/<%= pkg.name %>.js'
       }
