@@ -12,7 +12,7 @@ if (typeof angular !== 'undefined' && typeof showdown !== 'undefined') {
 
     module
       .provider('$showdown', provider)
-      .directive('sdModelToHtml', ['$Showdown', '$sanitize', markdownToHtmlDirective])
+      .directive('sdModelToHtml', ['$showdown', '$sanitize', markdownToHtmlDirective])
       .filter('sdStripHtml', stripHtmlFilter);
 
     /**
@@ -103,7 +103,7 @@ if (typeof angular !== 'undefined' && typeof showdown !== 'undefined') {
      * AngularJS Directive to Md to HTML transformation
      *
      * Usage example:
-     * <div sd-md-to-html-model="markdownText" ></div>
+     * <div sd-model-to-html="markdownText" ></div>
      *
      * @param {showdown.Converter} $showdown
      * @returns {*}
