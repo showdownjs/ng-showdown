@@ -106,7 +106,7 @@ if (typeof angular !== 'undefined' && typeof showdown !== 'undefined') {
      * <div sd-model-to-html="markdownText" ></div>
      *
      * @param {showdown.Converter} $showdown
-     * @param $sanitize
+     * @param {ngSanitize} $sanitize
      * @returns {*}
      */
     function markdownToHtmlDirective($showdown, $sanitize) {
