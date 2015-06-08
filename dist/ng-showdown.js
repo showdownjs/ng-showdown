@@ -1,3 +1,5 @@
+;/*! ng-showdown 02-06-2015 */
+(function(){
 // Conditional load for NodeJS
 if (typeof require !== 'undefined') {
   var angular = require('angular'),
@@ -148,3 +150,5 @@ if (typeof angular !== 'undefined' && typeof showdown !== 'undefined') {
 } else {
   throw new Error('ng-showdown was not loaded because one of its dependencies (AngularJS or Showdown) was not met');
 }
+}).call(this);
+//# sourceMappingURL=ng-showdown.js.map

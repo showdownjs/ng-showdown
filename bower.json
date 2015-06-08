@@ -3,7 +3,8 @@
   "description": "Official Showdown integration with AngularJS",
   "homepage": "https://github.com/showdownjs/ng-showdown",
   "authors": [
-    "Estevão Santos (https://github.com/tivie)"
+    "Estevão Santos (https://github.com/tivie)",
+    "SyntaxRules (https://github.com/SyntaxRules)"
   ],
   "main": ["src/ng-showdown.js"],
   "ignore": [
