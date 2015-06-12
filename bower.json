@@ -10,7 +10,10 @@
     "dist/ng-showdown.js"
   ],
   "ignore": [
-    ".jshintrc"
+    ".*",
+    "Gruntfile.js",
+    "src",
+    "test"
   ],
   "repository": {
     "type": "git",
