@@ -6,9 +6,14 @@
     "Estevão Santos (https://github.com/tivie)",
     "SyntaxRules (https://github.com/SyntaxRules)"
   ],
-  "main": ["src/ng-showdown.js"],
+  "main": [
+    "dist/ng-showdown.js"
+  ],
   "ignore": [
-    ".jshintrc"
+    ".*",
+    "Gruntfile.js",
+    "src",
+    "test"
   ],
   "repository": {
     "type": "git",
