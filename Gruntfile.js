@@ -10,8 +10,7 @@ module.exports = function (grunt) {
     concat: {
       options: {
         sourceMap: true,
-        banner: ';/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n(function(){\n',
-        footer: '}).call(this);'
+        banner: ';/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
       },
       dist: {
         src:  [
