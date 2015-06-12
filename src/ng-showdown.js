@@ -13,7 +13,7 @@
 
       module
         .provider('$showdown', provider)
-        .directive('sdModelToHtml', ['$showdown', '$sanitize', markdownToHtmlDirective])
+        .directive('sdModelToHtml', ['$showdown', '$sce', markdownToHtmlDirective])
         .filter('sdStripHtml', stripHtmlFilter);
 
       /**
@@ -110,13 +110,14 @@
        * @param {ngSanitize} $sanitize
        * @returns {*}
        */
-      function markdownToHtmlDirective($showdown, $sanitize) {
+      function markdownToHtmlDirective($showdown, $sce) {
 
         var link = function (scope, element) {
           scope.$watch('model', function (newValue) {
             var val;
             if (typeof newValue === 'string') {
-              val = $sanitize($showdown.makeHtml(newValue));
+              var showdownHTML = $showdown.makeHtml(newValue);
+              val = $sce.trustAsHtml(showdownHTML);
             } else {
               val = typeof newValue;
             }
