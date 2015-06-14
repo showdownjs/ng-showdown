@@ -144,7 +144,7 @@
         };
       }
 
-    })(angular.module('showdown', ['ngSanitize']), showdown);
+    })(angular.module('ng-showdown', ['ngSanitize']), showdown);
 
   } else {
     throw new Error('ng-showdown was not loaded because one of its dependencies (AngularJS or Showdown) was not met');
