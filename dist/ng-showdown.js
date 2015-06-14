@@ -1,4 +1,4 @@
-;/*! ng-showdown 11-06-2015 */
+;/*! ng-showdown 15-06-2015 */
 (function (angular, showdown) {
   // Conditional load for NodeJS
   if (typeof require !== 'undefined') {
@@ -145,7 +145,7 @@
         };
       }
 
-    })(angular.module('showdown', ['ngSanitize']), showdown);
+    })(angular.module('ng-showdown', ['ngSanitize']), showdown);
 
   } else {
     throw new Error('ng-showdown was not loaded because one of its dependencies (AngularJS or Showdown) was not met');
