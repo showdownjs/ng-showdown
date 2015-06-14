@@ -12,6 +12,7 @@
   "ignore": [
     ".*",
     "Gruntfile.js",
+    "package.json",
     "src",
     "test"
   ],
