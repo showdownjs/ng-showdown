@@ -107,7 +107,7 @@
        * <div sd-model-to-html="markdownText" ></div>
        *
        * @param {showdown.Converter} $showdown
-       * @param {ngSanitize} $sanitize
+       * @param {$sce} $sce
        * @returns {*}
        */
       function markdownToHtmlDirective($showdown, $sce) {
