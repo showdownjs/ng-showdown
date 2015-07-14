@@ -1,4 +1,4 @@
-;/*! ng-showdown 15-06-2015 */
+;/*! ng-showdown 13-07-2015 */
 (function (angular, showdown) {
   // Conditional load for NodeJS
   if (typeof require !== 'undefined') {
@@ -15,7 +15,7 @@
       module
         .provider('$showdown', provider)
         .directive('sdModelToHtml', ['$showdown', '$sanitize', markdownToHtmlDirective])
-        .filter('sdStripHtml', stripHtmlFilter);
+        .filter('sdStripHtml', ['$showdown', stripHtmlFilter]);
 
       /**
        * Angular Provider
@@ -85,7 +85,7 @@
           };
 
           /**
-           * Strips a text of it's HTML tags
+           * Strips a text of it's HTML tags. See http://stackoverflow.com/questions/17289448/angularjs-to-output-plain-text-instead-of-html
            *
            * @param {string} text
            * @returns {string}
@@ -112,8 +112,15 @@
        * @returns {*}
        */
       function markdownToHtmlDirective($showdown, $sanitize) {
+        return {
+          restrict: 'A',
+          link: link,
+          scope: {
+            model: '=sdModelToHtml'
+          }
+        };
 
-        var link = function (scope, element) {
+        function link(scope, element) {
           scope.$watch('model', function (newValue) {
             var val;
             if (typeof newValue === 'string') {
@@ -123,15 +130,7 @@
             }
             element.html(val);
           });
-        };
-
-        return {
-          restrict: 'A',
-          link: link,
-          scope: {
-            model: '=sdModelToHtml'
-          }
-        };
+        }
       }
 
       /**
@@ -139,9 +138,9 @@
        *
        * @returns {Function}
        */
-      function stripHtmlFilter() {
+      function stripHtmlFilter($showdown) {
         return function (text) {
-          return String(text).replace(/<[^>]+>/gm, '');
+          return $showdown.stripHtml(text);
         };
       }
 
