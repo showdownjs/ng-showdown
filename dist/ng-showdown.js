@@ -14,8 +14,8 @@
 
       module
         .provider('$showdown', provider)
-        .directive('sdModelToHtml', ['$showdown', '$sanitize', markdownToHtmlDirective])
-        .filter('sdStripHtml', ['$showdown', stripHtmlFilter]);
+        .directive('sdModelToHtml', ['$showdown', '$sce', markdownToHtmlDirective])
+        .filter('sdStripHtml', stripHtmlFilter);
 
       /**
        * Angular Provider
@@ -108,10 +108,10 @@
        * <div sd-model-to-html="markdownText" ></div>
        *
        * @param {showdown.Converter} $showdown
-       * @param {ngSanitize} $sanitize
+       * @param {$sce} $sce
        * @returns {*}
        */
-      function markdownToHtmlDirective($showdown, $sanitize) {
+      function markdownToHtmlDirective($showdown, $sce) {
         return {
           restrict: 'A',
           link: link,
@@ -124,7 +124,8 @@
           scope.$watch('model', function (newValue) {
             var val;
             if (typeof newValue === 'string') {
-              val = $sanitize($showdown.makeHtml(newValue));
+              var showdownHTML = $showdown.makeHtml(newValue);
+              val = $sce.trustAsHtml(showdownHTML);
             } else {
               val = typeof newValue;
             }
