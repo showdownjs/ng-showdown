@@ -1,4 +1,4 @@
-;/*! ng-showdown 17-07-2015 */
+;/*! ng-showdown 18-07-2015 */
 (function (angular, showdown) {
   // Conditional load for NodeJS
   if (typeof require !== 'undefined') {
