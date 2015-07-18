@@ -15,12 +15,28 @@ module.exports = function (config) {
       'test/**/*.spec.js'
     ],
 
-    reporters: ['progress'],
+    reporters: ['coverage'],
+
+    preprocessors: {
+      'src/**/*.js' : ['progress', 'coverage']
+    },
+
+    //plugins: [
+    //  'karma-chai',
+    //  'karma-coverage',
+    //  'karma-mocha',
+    //  'karma-phantomjs-launcher'
+    //],
+
+    coverageReporter: {
+      type: 'html',
+      dir: 'coverage'
+    },
 
     port: 9876,
     colors: true,
     autoWatch: false,
-    singleRun: false,
+    singleRun: true,
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
