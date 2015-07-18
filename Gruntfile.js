@@ -71,6 +71,11 @@ module.exports = function (grunt) {
           reporter: 'spec'
         }
       }
+    },
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js'
+      }
     }
   };
 
@@ -82,10 +87,11 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-simple-mocha');
   grunt.loadNpmTasks('grunt-jscs');
   grunt.loadNpmTasks('grunt-conventional-changelog');
+  grunt.loadNpmTasks('grunt-karma');
 
   grunt.registerTask('lint', ['jshint', 'jscs']);
-  grunt.registerTask('test', ['lint', 'concat', 'simplemocha']);
-  grunt.registerTask('test-without-building', ['simplemocha']);
+  grunt.registerTask('test', ['lint', 'concat', 'karma']);
+  grunt.registerTask('test-without-building', ['karma']);
   grunt.registerTask('build', ['lint', 'test', 'uglify']);
 
   // Default task(s).

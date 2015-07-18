@@ -7,14 +7,14 @@
 
   //Check if AngularJs and Showdown is defined and only load ng-Showdown if both are present
   if (typeof angular !== 'undefined' && typeof showdown !== 'undefined') {
-
     (function (module, showdown) {
       'use strict';
 
-      module
-        .provider('$showdown', provider)
-        .directive('sdModelToHtml', ['$showdown', '$sce', markdownToHtmlDirective])
-        .filter('sdStripHtml', stripHtmlFilter);
+      module.provider('$showdown', ngShowdown)
+        .directive('sdModelToHtml', ['$showdown', '$sce', markdownToHtmlDirective]) //<-- DEPRECATED: will be removed in the next major version release
+        .directive('markdownToHtml', ['$showdown', '$sce', markdownToHtmlDirective])
+        .filter('sdStripHtml', ['$showdown', stripHtmlFilter]) //<-- DEPRECATED: will be removed in the next major version release
+        .filter('stripHtml', ['$showdown', stripHtmlFilter]);
 
       /**
        * Angular Provider
@@ -24,12 +24,11 @@
        * If the user wants to use a different configuration in a determined context, he can use the "classic" Showdown
        * object instead.
        */
-      function provider() {
+      function ngShowdown() {
 
         // Configuration parameters for Showdown
         var config = {
-          extensions: [],
-          stripHtml: true
+          extensions: []
         };
 
         /**
@@ -41,7 +40,6 @@
         /* jshint validthis: true */
         this.setOption = function (key, value) {
           config[key] = value;
-
           return this;
         };
 
@@ -53,9 +51,9 @@
          */
         this.getOption = function (key) {
           if (config.hasOwnProperty(key)) {
-            return config.key;
+            return config[key];
           } else {
-            return null;
+            return undefined;
           }
         };
 
@@ -84,7 +82,7 @@
           };
 
           /**
-           * Strips a text of it's HTML tags
+           * Strips a text of it's HTML tags. See http://stackoverflow.com/questions/17289448/angularjs-to-output-plain-text-instead-of-html
            *
            * @param {string} text
            * @returns {string}
@@ -111,8 +109,15 @@
        * @returns {*}
        */
       function markdownToHtmlDirective($showdown, $sce) {
+        return {
+          restrict: 'A',
+          link: link,
+          scope: {
+            model: '=sdModelToHtml'
+          }
+        };
 
-        var link = function (scope, element) {
+        function link(scope, element) {
           scope.$watch('model', function (newValue) {
             var val;
             if (typeof newValue === 'string') {
@@ -123,15 +128,7 @@
             }
             element.html(val);
           });
-        };
-
-        return {
-          restrict: 'A',
-          link: link,
-          scope: {
-            model: '=sdModelToHtml'
-          }
-        };
+        }
       }
 
       /**
@@ -139,9 +136,9 @@
        *
        * @returns {Function}
        */
-      function stripHtmlFilter() {
+      function stripHtmlFilter($showdown) {
         return function (text) {
-          return String(text).replace(/<[^>]+>/gm, '');
+          return $showdown.stripHtml(text);
         };
       }
 
