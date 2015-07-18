@@ -1,6 +1,9 @@
 describe('Showdown', function () {
   var expect = window.expect,
-    showdownProvider;
+    showdownProvider,
+    markdown = '# Title',
+    parsedHtml = '<h1 id="title">Title</h1>';
+
   beforeEach(function () {
 
     module('ng-showdown', function ($showdownProvider) {
@@ -9,17 +12,11 @@ describe('Showdown', function () {
 
   });
 
-  afterEach(function () {
-
-  });
-
-  describe('Showdown directive', function () {
+  describe('markdownToHtml directive', function () {
     var scope,
       compile,
       element,
-      validTemplate = '<div sd-model-to-html="someData"></div>',
-      markdown = '# Title',
-      htmlExpeted = '<h1 id="title">Title</h1>';
+      validTemplate = '<div sd-model-to-html="someData"></div>';
 
     beforeEach(function () {
       // Inject in angular constructs otherwise,
@@ -39,7 +36,7 @@ describe('Showdown', function () {
 
     it('should parse markdown', function () {
       element = createDirective(markdown);
-      expect(element.html()).to.be.equal(htmlExpeted);
+      expect(element.html()).to.be.equal(parsedHtml);
     });
 
     function createDirective(data, template) {
@@ -61,30 +58,37 @@ describe('Showdown', function () {
 
   describe('Showdown Provider', function () {
 
-    it('should not have a test variable', function () {
-      expect(showdownProvider.$get().test).to.be.an('undefined');
+    it('should set showdown config variables', function () {
+      showdownProvider.setOption('foo', 'bar');
+      expect(showdownProvider.getOption('foo')).to.be.equal('bar');
+    });
+
+    it('should strip html', function () {
+      expect(showdownProvider.$get().stripHtml('<p>Foo bar</p>')).to.be.equal('Foo bar');
+    });
+
+    it('should parse markdown', function () {
+      expect(showdownProvider.$get().makeHtml(markdown)).to.be.equal(parsedHtml);
     });
 
   });
 
-  describe('Showdown filter', function () {
-    var sdStripHtmlFilter;
+  describe('strip filter', function () {
+    var stripHtmlFilter;
 
     beforeEach(function () {
-
       inject(function ($filter) {
-        sdStripHtmlFilter = $filter('sdStripHtml');
+        stripHtmlFilter = $filter('stripHtml');
       });
-
     });
 
     it('should exist', function () {
-      expect(!!sdStripHtmlFilter).to.be.equal(true);
+      expect(!!stripHtmlFilter).to.be.equal(true);
     });
 
     //Not testing full functionality here, the showdown provider gets those tests
     it('should strip html', function () {
-      expect(sdStripHtmlFilter('<p>Foo bar</p>')).to.be.equal('Foo bar');
+      expect(stripHtmlFilter('<p>Foo bar</p>')).to.be.equal('Foo bar');
     });
 
   });
