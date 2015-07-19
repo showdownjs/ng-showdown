@@ -7,18 +7,18 @@ module.exports = function (config) {
     frameworks: ['mocha', 'chai'],
 
     files: [
-      'bower_components/angular/angular.js',
-      'bower_components/angular-mocks/angular-mocks.js',
-      'bower_components/angular-sanitize/angular-sanitize.js',
-      'bower_components/showdown/dist/showdown.js',
-      'src/*.js',
-      'test/**/*.spec.js'
+      './bower_components/angular/angular.js',
+      './bower_components/angular-mocks/angular-mocks.js',
+      './bower_components/angular-sanitize/angular-sanitize.js',
+      './bower_components/showdown/dist/showdown.js',
+      './src/*.js',
+      './test/**/*.spec.js'
     ],
 
-    reporters: ['coverage'],
+    reporters: ['progress', 'coverage'],
 
     preprocessors: {
-      'src/**/*.js' : ['progress', 'coverage']
+      'src/**/*.js' : ['coverage']
     },
 
     //plugins: [

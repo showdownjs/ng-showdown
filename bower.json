@@ -34,5 +34,8 @@
     "mdown",
     "angular"
   ],
-  "license": "https://github.com/showdownjs/ng-showdown/blob/master/license.txt"
+  "license": "https://github.com/showdownjs/ng-showdown/blob/master/license.txt",
+  "devDependencies": {
+    "angular-mocks": "~1.4.3"
+  }
 }

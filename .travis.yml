@@ -8,8 +8,13 @@ before_install:
   - npm install -g npm@latest
   - npm install -g grunt-cli
 
+before_script:
+  - npm install -g bower
+  - bower update
+
 #travis build  speed up
 sudo: false
 cache:
   directories:
     - node_modules
+
