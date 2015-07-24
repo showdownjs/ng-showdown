@@ -13,8 +13,8 @@
 
       module
         .provider('$showdown', ngShowdown)
-        .directive('sdModelToHtml', ['$showdown', '$sce', sdModelToHtmlDirective]) //<-- DEPRECATED: will be removed in the next major version release
-        .directive('markdownToHtml', ['$showdown', '$sce', markdownToHtmlDirective])
+        .directive('sdModelToHtml', ['$showdown', '$sanitize', sdModelToHtmlDirective]) //<-- DEPRECATED: will be removed in the next major version release
+        .directive('markdownToHtml', ['$showdown', '$sanitize', markdownToHtmlDirective])
         .filter('sdStripHtml', ['$showdown', stripHtmlFilter]) //<-- DEPRECATED: will be removed in the next major version release
         .filter('stripHtml', ['$showdown', stripHtmlFilter]);
 
@@ -30,7 +30,8 @@
 
         // Configuration parameters for Showdown
         var config = {
-          extensions: []
+          extensions: [],
+          sanitize: false
         };
 
         /**
@@ -92,6 +93,23 @@
           this.stripHtml = function (text) {
             return String(text).replace(/<[^>]+>/gm, '');
           };
+
+          /**
+           * Gets the value of the configuration parameter of CONVERTER specified by key
+           * @param {string} key The config parameter key
+           * @returns {*}
+           */
+          this.getOption = function (key) {
+            return converter.getOption(key);
+          };
+
+          /**
+           * Gets the converter configuration params
+           * @returns {*}
+           */
+          this.getOptions = function () {
+            return converter.getOptions();
+          };
         }
 
         // The object returned by service provider
@@ -108,13 +126,13 @@
        * <div sd-model-to-html="markdownText" ></div>
        *
        * @param {showdown.Converter} $showdown
-       * @param {$sce} $sce
+       * @param {$sanitize} $sanitize
        * @returns {*}
        */
-      function sdModelToHtmlDirective($showdown, $sce) {
+      function sdModelToHtmlDirective($showdown, $sanitize) {
         return {
           restrict: 'A',
-          link: getLinkFn($showdown, $sce),
+          link: getLinkFn($showdown, $sanitize),
           scope: {
             model: '=sdModelToHtml'
           }
@@ -128,26 +146,27 @@
        * <div markdown-to-html="markdownText" ></div>
        *
        * @param {showdown.Converter} $showdown
-       * @param {$sce} $sce
+       * @param {$sanitize} $sanitize
        * @returns {*}
        */
-      function markdownToHtmlDirective($showdown, $sce) {
+      function markdownToHtmlDirective($showdown, $sanitize) {
         return {
           restrict: 'A',
-          link: getLinkFn($showdown, $sce),
+          link: getLinkFn($showdown, $sanitize),
           scope: {
             model: '=markdownToHtml'
           }
         };
       }
 
-      function getLinkFn($showdown, $sce) {
+      function getLinkFn($showdown, $sanitize) {
         return function (scope, element) {
           scope.$watch('model', function (newValue) {
-            var val;
+            var val,
+                showdownHTML;
             if (typeof newValue === 'string') {
-              var showdownHTML = $showdown.makeHtml(newValue);
-              val = $sce.trustAsHtml(showdownHTML);
+              showdownHTML = $showdown.makeHtml(newValue);
+              val = ($showdown.getOption('sanitize')) ? $sanitize(showdownHTML) : showdownHTML;
             } else {
               val = typeof newValue;
             }
