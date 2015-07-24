@@ -13,8 +13,8 @@
 
       module
         .provider('$showdown', ngShowdown)
-        .directive('sdModelToHtml', ['$showdown', '$sanitize', sdModelToHtmlDirective]) //<-- DEPRECATED: will be removed in the next major version release
-        .directive('markdownToHtml', ['$showdown', '$sanitize', markdownToHtmlDirective])
+        .directive('sdModelToHtml', ['$showdown', '$sanitize', '$sce', sdModelToHtmlDirective]) //<-- DEPRECATED: will be removed in the next major version release
+        .directive('markdownToHtml', ['$showdown', '$sanitize', '$sce', markdownToHtmlDirective])
         .filter('sdStripHtml', ['$showdown', stripHtmlFilter]) //<-- DEPRECATED: will be removed in the next major version release
         .filter('stripHtml', ['$showdown', stripHtmlFilter]);
 
@@ -127,12 +127,13 @@
        *
        * @param {showdown.Converter} $showdown
        * @param {$sanitize} $sanitize
+       * @param {$sce} $sce
        * @returns {*}
        */
-      function sdModelToHtmlDirective($showdown, $sanitize) {
+      function sdModelToHtmlDirective($showdown, $sanitize, $sce) {
         return {
           restrict: 'A',
-          link: getLinkFn($showdown, $sanitize),
+          link: getLinkFn($showdown, $sanitize, $sce),
           scope: {
             model: '=sdModelToHtml'
           }
@@ -147,26 +148,27 @@
        *
        * @param {showdown.Converter} $showdown
        * @param {$sanitize} $sanitize
+       * @param {$sce} $sce
        * @returns {*}
        */
-      function markdownToHtmlDirective($showdown, $sanitize) {
+      function markdownToHtmlDirective($showdown, $sanitize, $sce) {
         return {
           restrict: 'A',
-          link: getLinkFn($showdown, $sanitize),
+          link: getLinkFn($showdown, $sanitize, $sce),
           scope: {
             model: '=markdownToHtml'
           }
         };
       }
 
-      function getLinkFn($showdown, $sanitize) {
+      function getLinkFn($showdown, $sanitize, $sce) {
         return function (scope, element) {
           scope.$watch('model', function (newValue) {
             var val,
                 showdownHTML;
             if (typeof newValue === 'string') {
               showdownHTML = $showdown.makeHtml(newValue);
-              val = ($showdown.getOption('sanitize')) ? $sanitize(showdownHTML) : showdownHTML;
+              val = ($showdown.getOption('sanitize')) ? $sanitize(showdownHTML) : $sce.trustAsHtml(showdownHTML);
             } else {
               val = typeof newValue;
             }
