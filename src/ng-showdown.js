@@ -10,8 +10,9 @@
     (function (module, showdown) {
       'use strict';
 
-      module.provider('$showdown', ngShowdown)
-        .directive('sdModelToHtml', ['$showdown', '$sce', markdownToHtmlDirective]) //<-- DEPRECATED: will be removed in the next major version release
+      module
+        .provider('$showdown', ngShowdown)
+        .directive('sdModelToHtml', ['$showdown', '$sce', sdModelToHtmlDirective]) //<-- DEPRECATED: will be removed in the next major version release
         .directive('markdownToHtml', ['$showdown', '$sce', markdownToHtmlDirective])
         .filter('sdStripHtml', ['$showdown', stripHtmlFilter]) //<-- DEPRECATED: will be removed in the next major version release
         .filter('stripHtml', ['$showdown', stripHtmlFilter]);
@@ -99,7 +100,8 @@
       }
 
       /**
-       * AngularJS Directive to Md to HTML transformation
+       * @deprecated
+       * Legacy AngularJS Directive to Md to HTML transformation
        *
        * Usage example:
        * <div sd-model-to-html="markdownText" ></div>
@@ -108,16 +110,38 @@
        * @param {$sce} $sce
        * @returns {*}
        */
-      function markdownToHtmlDirective($showdown, $sce) {
+      function sdModelToHtmlDirective($showdown, $sce) {
         return {
           restrict: 'A',
-          link: link,
+          link: getLinkFn($showdown, $sce),
           scope: {
             model: '=sdModelToHtml'
           }
         };
+      }
 
-        function link(scope, element) {
+      /**
+       * AngularJS Directive to Md to HTML transformation
+       *
+       * Usage example:
+       * <div markdown-to-html="markdownText" ></div>
+       *
+       * @param {showdown.Converter} $showdown
+       * @param {$sce} $sce
+       * @returns {*}
+       */
+      function markdownToHtmlDirective($showdown, $sce) {
+        return {
+          restrict: 'A',
+          link: getLinkFn($showdown, $sce),
+          scope: {
+            model: '=markdownToHtml'
+          }
+        };
+      }
+
+      function getLinkFn($showdown, $sce) {
+        return function (scope, element) {
           scope.$watch('model', function (newValue) {
             var val;
             if (typeof newValue === 'string') {
@@ -128,7 +152,7 @@
             }
             element.html(val);
           });
-        }
+        };
       }
 
       /**
