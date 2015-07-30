@@ -60,7 +60,7 @@ Output: *string* - stripped html
 
 ## Configuration
 
-You can configure the options and extensions passed to showdown by useing the `$showdownProvider`. To see these options, visit the [Showdown page](https://github.com/showdownjs/showdown).
+You can configure the options and extensions passed to showdown by using the `$showdownProvider`. To see these options, visit the [Showdown page](https://github.com/showdownjs/showdown).
 
 `$showdownProvider.setOption(key, value)` - sets the passed in option as a configuration option in showdown
 
