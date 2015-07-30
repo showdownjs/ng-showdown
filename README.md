@@ -32,7 +32,7 @@ Output: *string* - html output from showdown
 
 `$showdown.stripHtml` - Strips a text of it's HTML tags. See http://stackoverflow.com/questions/17289448/angularjs-to-output-plain-text-instead-of-html
 
-Input: *string* - html to be striped
+Input: *string* - html to be stripped
 
 Output: *string* - string without `<html>` tags
 
