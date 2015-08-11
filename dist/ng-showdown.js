@@ -1,4 +1,4 @@
-;/*! ng-showdown 24-07-2015 */
+;/*! ng-showdown 11-08-2015 */
 (function (angular, showdown) {
   // Conditional load for NodeJS
   if (typeof require !== 'undefined') {
@@ -109,6 +109,18 @@
            */
           this.getOptions = function () {
             return converter.getOptions();
+          };
+
+          /**
+           * Sets a configuration option
+           *
+           * @param {string} key Config parameter key
+           * @param {string} value Config parameter value
+           * @returns {SDObject}
+           */
+          this.setOption = function (key, value) {
+            converter.setOption(key, value);
+            return this;
           };
         }
 
