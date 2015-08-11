@@ -1,4 +1,4 @@
-;/*! ng-showdown 18-07-2015 */
+;/*! ng-showdown 24-07-2015 */
 (function (angular, showdown) {
   // Conditional load for NodeJS
   if (typeof require !== 'undefined') {
@@ -11,9 +11,10 @@
     (function (module, showdown) {
       'use strict';
 
-      module.provider('$showdown', ngShowdown)
-        .directive('sdModelToHtml', ['$showdown', '$sce', markdownToHtmlDirective]) //<-- DEPRECATED: will be removed in the next major version release
-        .directive('markdownToHtml', ['$showdown', '$sce', markdownToHtmlDirective])
+      module
+        .provider('$showdown', ngShowdown)
+        .directive('sdModelToHtml', ['$showdown', '$sanitize', '$sce', sdModelToHtmlDirective]) //<-- DEPRECATED: will be removed in the next major version release
+        .directive('markdownToHtml', ['$showdown', '$sanitize', '$sce', markdownToHtmlDirective])
         .filter('sdStripHtml', ['$showdown', stripHtmlFilter]) //<-- DEPRECATED: will be removed in the next major version release
         .filter('stripHtml', ['$showdown', stripHtmlFilter]);
 
@@ -29,7 +30,8 @@
 
         // Configuration parameters for Showdown
         var config = {
-          extensions: []
+          extensions: [],
+          sanitize: false
         };
 
         /**
@@ -91,6 +93,23 @@
           this.stripHtml = function (text) {
             return String(text).replace(/<[^>]+>/gm, '');
           };
+
+          /**
+           * Gets the value of the configuration parameter of CONVERTER specified by key
+           * @param {string} key The config parameter key
+           * @returns {*}
+           */
+          this.getOption = function (key) {
+            return converter.getOption(key);
+          };
+
+          /**
+           * Gets the converter configuration params
+           * @returns {*}
+           */
+          this.getOptions = function () {
+            return converter.getOptions();
+          };
         }
 
         // The object returned by service provider
@@ -100,36 +119,62 @@
       }
 
       /**
-       * AngularJS Directive to Md to HTML transformation
+       * @deprecated
+       * Legacy AngularJS Directive to Md to HTML transformation
        *
        * Usage example:
        * <div sd-model-to-html="markdownText" ></div>
        *
        * @param {showdown.Converter} $showdown
+       * @param {$sanitize} $sanitize
        * @param {$sce} $sce
        * @returns {*}
        */
-      function markdownToHtmlDirective($showdown, $sce) {
+      function sdModelToHtmlDirective($showdown, $sanitize, $sce) {
         return {
           restrict: 'A',
-          link: link,
+          link: getLinkFn($showdown, $sanitize, $sce),
           scope: {
             model: '=sdModelToHtml'
           }
         };
+      }
 
-        function link(scope, element) {
+      /**
+       * AngularJS Directive to Md to HTML transformation
+       *
+       * Usage example:
+       * <div markdown-to-html="markdownText" ></div>
+       *
+       * @param {showdown.Converter} $showdown
+       * @param {$sanitize} $sanitize
+       * @param {$sce} $sce
+       * @returns {*}
+       */
+      function markdownToHtmlDirective($showdown, $sanitize, $sce) {
+        return {
+          restrict: 'A',
+          link: getLinkFn($showdown, $sanitize, $sce),
+          scope: {
+            model: '=markdownToHtml'
+          }
+        };
+      }
+
+      function getLinkFn($showdown, $sanitize, $sce) {
+        return function (scope, element) {
           scope.$watch('model', function (newValue) {
-            var val;
+            var val,
+                showdownHTML;
             if (typeof newValue === 'string') {
-              var showdownHTML = $showdown.makeHtml(newValue);
-              val = $sce.trustAsHtml(showdownHTML);
+              showdownHTML = $showdown.makeHtml(newValue);
+              val = ($showdown.getOption('sanitize')) ? $sanitize(showdownHTML) : $sce.trustAsHtml(showdownHTML);
             } else {
               val = typeof newValue;
             }
             element.html(val);
           });
-        }
+        };
       }
 
       /**
