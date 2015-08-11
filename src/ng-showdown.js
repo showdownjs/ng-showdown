@@ -109,6 +109,18 @@
           this.getOptions = function () {
             return converter.getOptions();
           };
+
+          /**
+           * Sets a configuration option
+           *
+           * @param {string} key Config parameter key
+           * @param {string} value Config parameter value
+           * @returns {SDObject}
+           */
+          this.setOption = function (key, value) {
+            converter.setOption(key, value);
+            return this;
+          };
         }
 
         // The object returned by service provider
