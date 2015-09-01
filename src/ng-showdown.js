@@ -147,7 +147,8 @@
           link: getLinkFn($showdown, $sanitize, $sce),
           scope: {
             model: '=sdModelToHtml'
-          }
+          },
+          template: '<div ng-bind-html="trustedHtml"></div>'
         };
       }
 
@@ -168,22 +169,21 @@
           link: getLinkFn($showdown, $sanitize, $sce),
           scope: {
             model: '=markdownToHtml'
-          }
+          },
+          template: '<div ng-bind-html="trustedHtml"></div>'
         };
       }
 
       function getLinkFn($showdown, $sanitize, $sce) {
-        return function (scope, element) {
+        return function (scope, element, attrs) {
           scope.$watch('model', function (newValue) {
-            var val,
-                showdownHTML;
+            var showdownHTML;
             if (typeof newValue === 'string') {
               showdownHTML = $showdown.makeHtml(newValue);
-              val = ($showdown.getOption('sanitize')) ? $sanitize(showdownHTML) : $sce.trustAsHtml(showdownHTML);
+              scope.trustedHtml = ($showdown.getOption('sanitize')) ? $sanitize(showdownHTML) : $sce.trustAsHtml(showdownHTML);
             } else {
-              val = typeof newValue;
+              scope.trustedHtml = typeof newValue;
             }
-            element.html(val);
           });
         };
       }
