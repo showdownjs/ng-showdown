@@ -36,7 +36,7 @@ describe('Showdown', function () {
 
     it('should parse markdown', function () {
       element = createDirective(markdown);
-      expect(element.html()).to.be.equal(parsedHtml);
+      expect(element.html()).to.be.equal('<div ng-bind-html="trustedHtml" class="ng-binding">' + parsedHtml + '</div>');
     });
 
     function createDirective(data, template) {
