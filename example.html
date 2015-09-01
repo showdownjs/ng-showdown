@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<body ng-app="example" ng-controller="MainController as vm">
+
+<p>Foo</p>
+
+<div markdown-to-html="vm.markdown"></div>
+
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower_components/showdown/dist/showdown.js"></script>
+<script src="src/ng-showdown.js"></script>
+<script>
+    angular.module('example', ['ng-showdown']);
+
+    angular.module('example').controller('MainController', mainController);
+
+    function mainController() {
+        var vm = this;
+        vm.bar = 'jones';
+        vm.markdown = '![Showdown][sd-logo]\n' +
+                '\n' +
+                'Showdown is a Javascript Markdown to HTML converter, based on the original works by John Gruber. It can be used client side (in the browser) or server side (with Node or io).\n' +
+                '\n' +
+                '\n' +
+                '# Installation\n' +
+                '\n' +
+                '## Download tarball\n' +
+                '\n' +
+                'You can download the latest release tarball directly from [releases][releases]\n' +
+                '\n' +
+                '## Bower\n' +
+                '\n' +
+                '    bower install showdown\n' +
+                '\n' +
+                '## npm (server-side)\n' +
+                '\n' +
+                '    npm install showdown\n' +
+                '\n' +
+                '## CDN\n' +
+                '\n' +
+                'You can also use one of several CDNs available:\n' +
+                '\n' +
+                '* github CDN\n' +
+                '\n' +
+                '        https://cdn.rawgit.com/showdownjs/showdown/<version tag>/dist/showdown.min.js\n' +
+                '\n' +
+                '* cdnjs\n' +
+                '\n' +
+                '        https://cdnjs.cloudflare.com/ajax/libs/showdown/<version tag>/showdown.min.js\n' +
+                '\n' +
+                '\n' +
+                '---------\n' +
+                '\n' +
+                '\n' +
+                '# Here\'s some of the syntax supported\n' +
+                '\n' +
+                '\n' +
+                '# Paragraphs\n' +
+                '\n' +
+                'Paragraphs in Markdown are just one or more lines of consecutive text followed by one or more blank lines.\n' +
+                '\n' +
+                '    On July 2, an alien mothership entered Earth\'s orbit and deployed several dozen saucer-shaped "destroyer" spacecraft, each 15 miles (24 km) wide.\n' +
+                '    \n' +
+                '    On July 3, the Black Knights, a squadron of Marine Corps F/A-18 Hornets, participated in an assault on a destroyer near the city of Los Angeles.\n' +
+                '\n' +
+                '# Headings\n' +
+                '\n' +
+                'You can create a heading by adding one or more # symbols before your heading text. The number of # you use will determine the size of the heading. This is similar to [**atx style**][atx].\n' +
+                '\n' +
+                '    # The largest heading (an <h1> tag)\n' +
+                '    ## The second largest heading (an <h2> tag)\n' +
+                '    …\n' +
+                '    ###### The 6th largest heading (an <h6> tag)\n' +
+                '\n' +
+                'You can also use [setext style][setext] headings.\n' +
+                '\n' +
+                '    This is an H1\n' +
+                '    =============\n' +
+                '    \n' +
+                '    This is an H2\n' +
+                '    -------------\n' +
+                '\n' +
+                '# Blockquotes\n' +
+                '\n' +
+                'You can indicate blockquotes with a >.\n' +
+                '\n' +
+                '    In the words of Abraham Lincoln:\n' +
+                '    \n' +
+                '    > Pardon my french\n' +
+                '\n' +
+                '\n' +
+                '# Styling text\n' +
+                '\n' +
+                'You can make text **bold** or *italic*.\n' +
+                '\n' +
+                '    *This text will be italic*\n' +
+                '    **This text will be bold**\n' +
+                '\n' +
+                'Both bold and italic can use either a `*` or an `_` around the text for styling. This allows you to combine both bold and italic if needed.\n' +
+                '\n' +
+                '    **Everyone _must_ attend the meeting at 5 o\'clock today.**\n' +
+                '\n' +
+                '\n' +
+                '# Lists\n' +
+                '\n' +
+                '## Unordered lists\n' +
+                '\n' +
+                'You can make an unordered list by preceding list items with either a * or a -.\n' +
+                '\n' +
+                '    * Item\n' +
+                '    * Item\n' +
+                '    * Item\n' +
+                '\n' +
+                '    - Item\n' +
+                '    - Item\n' +
+                '    - Item\n' +
+                '\n' +
+                '## Ordered lists\n' +
+                '\n' +
+                'You can make an ordered list by preceding list items with a number.\n' +
+                '\n' +
+                '    1. Item 1\n' +
+                '    2. Item 2\n' +
+                '    3. Item 3\n' +
+                '\n' +
+                '\n' +
+                '## Nested lists\n' +
+                '\n' +
+                'You can create nested lists by indenting list items by two spaces.\n' +
+                '\n' +
+                '    1. Item 1\n' +
+                '      1. A corollary to the above item.\n' +
+                '      2. Yet another point to consider.\n' +
+                '    2. Item 2\n' +
+                '      * A corollary that does not need to be ordered.\n' +
+                '      * This is indented four spaces, because it\'s two spaces further than the item above.\n' +
+                '      * You might want to consider making a new list.\n' +
+                '    3. Item 3\n' +
+                '\n' +
+                '\n' +
+                '# Code formatting\n' +
+                '\n' +
+                '## Inline formats\n' +
+                '\n' +
+                'Use single backticks (\`) to format text in a special monospace format. Everything within the backticks appear as-is, with no other special formatting.\n' +
+                '\n' +
+                '    Here\'s an idea: why don\'t we take `SuperiorProject` and turn it into `**Reasonable**Project`.\n' +
+                '\n' +
+                '## Multiple lines\n' +
+                '\n' +
+                'Showdown wraps a code block in both `<pre>` and `<code>` tags.\n' +
+                '\n' +
+                'To produce a code block in Markdown, simply indent every line of the block by at least 4 spaces or 1 tab.\n' +
+                '\n' +
+                '    This is a normal paragraph:\n' +
+                '    \n' +
+                '        This is a code block.\n' +
+                '\n' +
+                'You can also use triple backticks to format text as its own distinct block.\n' +
+                '\n' +
+                '\n' +
+                '    Check out this neat program I wrote:\n' +
+                '    \n' +
+                '    ```\n' +
+                '    x = 0\n' +
+                '    x = 2 + 2\n' +
+                '    what is x\n' +
+                '    ```\n' +
+                '\n' +
+                '\n' +
+                '# Links\n' +
+                '\n' +
+                'Showdown supports two style of links: *inline* and *reference*.\n' +
+                '\n' +
+                '## Inline\n' +
+                '\n' +
+                'You can create an inline link by wrapping link text in brackets ( `[ ]` ), and then wrapping the link in parentheses ( `( )` ).\n' +
+                '\n' +
+                'For example, to create a hyperlink to `showdown.github.io`, with a link text that says, Showdown is great!, you\'d write this in Markdown:\n' +
+                '\n' +
+                '    [Showdown is great!](http://showdown.github.io/)\n' +
+                '\n' +
+                '## Reference\n' +
+                '\n' +
+                'Reference-style links use a second set of square brackets, inside which you place a label of your choosing to identify the link:\n' +
+                '\n' +
+                '    This is [an example][id] reference-style link.\n' +
+                '\n' +
+                'Then, anywhere in the document (usually at the end), you define your link label like this, on a line by itself:\n' +
+                '\n' +
+                '    [id]: http://example.com/  "Optional Title Here"\n' +
+                '\n' +
+                '\n' +
+                '# Tables\n' +
+                '\n' +
+                'Tables aren\'t part of the core Markdown spec, but they are part of GFM and Showdown supports them by turning on the flag \`tables\`.\n' +
+                '\n' +
+                '```\n' +
+                '| Tables        | Are           | Cool  |\n' +
+                '| ------------- |:-------------:| -----:|\n' +
+                '| **col 3 is**  | right-aligned | $1600 |\n' +
+                '| col 2 is      | *centered*    |   $12 |\n' +
+                '| zebra stripes | ~~are neat~~  |    $1 |\n' +
+                '```\n' +
+                '\n' +
+                'this will produce this:\n' +
+                '\n' +
+                '| Tables        | Are           | Cool  |\n' +
+                '| ------------- |:-------------:| -----:|\n' +
+                '| **col 3 is**  | right-aligned | $1600 |\n' +
+                '| col 2 is      | *centered*    |   $12 |\n' +
+                '| zebra stripes | ~~are neat~~  |    $1 |\n' +
+                '\n' +
+                '\n' +
+                'Colons can be used to align columns.\n' +
+                '\n' +
+                'The outer pipes (|) are optional, and you don\'t need to make the raw Markdown line up prettily. You can also use inline Markdown.\n' +
+                '\n' +
+                'You can also use other markdown syntax inside them.\n' +
+                '\n' +
+                '\n' +
+                '[sd-logo]: https://raw.githubusercontent.com/showdownjs/logo/master/dist/logo.readme.png\n' +
+                '[releases]: https://github.com/showdownjs/showdown/releases\n' +
+                '[atx]: http://www.aaronsw.com/2002/atx/intro\n' +
+                '[setext]: https://en.wikipedia.org/wiki/Setext';
+    }
+</script>
+</body>
+</html>
