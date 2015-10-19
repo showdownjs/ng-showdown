@@ -1,16 +1,23 @@
-(function (angular, showdown) {
-  // Conditional load for NodeJS
-  if (typeof require !== 'undefined') {
-    angular = require('angular');
-    showdown = require('showdown');
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['angular', 'showdown'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory(require('angular'), require('showdown'));
+  } else {
+    // Browser globals (root is window)
+    root.ngShowdown = factory(root.angular, root.showdown);
+  }
+}(this, function (angular, showdown) {
+  //Check if AngularJs and Showdown is defined and only load ng-Showdown if both are present
+  if (typeof angular === 'undefined' || typeof showdown === 'undefined') {
+    throw new Error('ng-showdown was not loaded because one of its dependencies (AngularJS or Showdown) was not met');
   }
 
-  //Check if AngularJs and Showdown is defined and only load ng-Showdown if both are present
-  if (typeof angular !== 'undefined' && typeof showdown !== 'undefined') {
-    (function (module, showdown) {
-      'use strict';
-
-      module
+      angular.module('ng-showdown', ['ngSanitize'])
         .provider('$showdown', ngShowdown)
         .directive('sdModelToHtml', ['$showdown', '$sanitize', '$sce', sdModelToHtmlDirective]) //<-- DEPRECATED: will be removed in the next major version release
         .directive('markdownToHtml', ['$showdown', '$sanitize', '$sce', markdownToHtmlDirective])
@@ -199,10 +206,5 @@
         };
       }
 
-    })(angular.module('ng-showdown', ['ngSanitize']), showdown);
-
-  } else {
-    throw new Error('ng-showdown was not loaded because one of its dependencies (AngularJS or Showdown) was not met');
-  }
-
-})(angular, showdown);
+  return angular.module('ng-showdown');
+    }));
