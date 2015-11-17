@@ -1,6 +1,6 @@
 {
   "name": "ng-showdown",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Official Showdown integration with AngularJS",
   "authors": [
     "Estevão Santos (https://github.com/tivie)",
