@@ -19,6 +19,15 @@ Angular integration for [Showdown](https://github.com/showdownjs/showdown)
   ```
   <p markdown-to-html="vm.mymarkdown"></p>
   ```
+
+## Dependencies
+
+ng-showdown depends on the [ngSanitize module](https://docs.angularjs.org/api/ngSanitize). Don't forget to include it:
+
+```html
+<script src="angular.js">
+<script src="angular-sanitize.js">
+```
   
 ## API
 
