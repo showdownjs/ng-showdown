@@ -25,8 +25,8 @@ Angular integration for [Showdown](https://github.com/showdownjs/showdown)
 ng-showdown depends on the [ngSanitize module](https://docs.angularjs.org/api/ngSanitize). Don't forget to include it:
 
 ```html
-<script src="angular.js">
-<script src="angular-sanitize.js">
+<script src="angular.js"></script>
+<script src="angular-sanitize.js"></script>
 ```
   
 ## API
